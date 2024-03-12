@@ -1,0 +1,24 @@
+version: 1
+default_environment: dev
+project_id: e9b4f329-b752-46d6-8749-b343a2b89449
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-ga4
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-google-analytics.git
+    config:
+      reports: extract/ga4.json
+      start_date: '2024-01-01'
+  loaders:
+  - name: target-bigquery
+    variant: z3z1ma
+    pip_url: git+https://github.com/z3z1ma/target-bigquery.git
+    config:
+      bucket: papermill_test
+      dataset: demo
+      project: adroit-hall-301111
+      credentials_path: service-accounts/adroit-hall-301111-417090a2983b.json

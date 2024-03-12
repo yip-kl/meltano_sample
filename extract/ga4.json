@@ -1,0 +1,25 @@
+[
+    { "name" : "users_per_day",
+      "dimensions" :
+      [
+        "date"
+      ],
+      "metrics" :
+      [
+        "newUsers",
+        "activeUsers"
+      ]
+    },
+    { "name" : "sessions_per_country_day",
+      "dimensions" :
+      [
+        "date",
+        "country"
+      ],
+      "metrics" :
+      [
+        "sessions",
+        "sessionsPerUser"
+      ]
+    }
+  ]
