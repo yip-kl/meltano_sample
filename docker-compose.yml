@@ -6,12 +6,3 @@ services:
       context: .
     # Define image name, optionally with a tag e.g. meltano_bbm:v1
     image: meltano_bbm
-    env_file:
-      - .env
-
-#tried
-# Hiding environment, removing environment and env_file from dockerignore
-# Adding version 3.3
-# Directly adding environment variables, hiding env_file
-# Keep both env_file and envionment and remove env_file from dockerignore OK
-# Keep env_file only and remove env_file from dockerignore OK
