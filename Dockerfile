@@ -16,7 +16,3 @@ RUN meltano install
 ENV MELTANO_PROJECT_READONLY 1
 
 ENTRYPOINT ["meltano"]
-
-# In case need to inspect the container filesystem
-# ENTRYPOINT ["bash"]
-

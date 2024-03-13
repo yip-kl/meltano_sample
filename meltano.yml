@@ -21,4 +21,4 @@ plugins:
       bucket: papermill_test
       dataset: demo
       project: adroit-hall-301111
-      credentials_path: service-accounts/adroit-hall-301111-417090a2983b.json
+      credentials_path: key-files/adroit-hall-301111-417090a2983b.json
