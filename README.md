@@ -5,11 +5,14 @@ Running Meltano as a container via Cloud Composer
 **Omitted items in code**
 These items are declared in .gitignore, remember to account for them in the code:
    - `key-files/`: Folder for storing the key files e.g. SSH keys, service account keys, etc.
-   - `.env`: Environment variables that are referred to in the `meltano.yml` file
+   - `.env`: Environment variables that are referred to in the `meltano.yml` file, please refer to `_non_meltano/.env_sample` for the variables we need to set for the project
 
 **Variables**
-   - Project level variables are defined in `.env` (used for everything) and in `run_k8s.py` (to be read for the container)
-   - Application level variables are defined in `meltano.yml` (self explanatory) and in `set_secret.sh` (set up secrets in Composer GKE as needed)
+They are stored in a number of files
+   - `.env`: Project-level setting, used for everything
+   - `meltano.yml`: Define the extract and load spec
+   - `set_secret.sh`: Set up secrets in Composer GKE as needed
+   - `run_k8s.py`: For mounting the secret in container. Contents are duplicated with .env however, can consider moving them to Cloud Composer environment variable
 
 # Local run
 **Run without Docker**: See if Meltano could run without containerization
@@ -42,7 +45,6 @@ meltano run tap-ga4 target-bigquery
    2. Update the DAG file `_non_meltano/run_k8s.py`
 
 To try:
- - Read env variables instead of hardcoding them in the run_k8s.py
  - Dockerfile read from env https://stackoverflow.com/questions/40248908/context-or-workdir-for-docker-compose
  - Improve the DAG file with affinity
 - Multiple extractor / target

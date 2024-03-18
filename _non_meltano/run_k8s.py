@@ -20,13 +20,14 @@ default_args = {
 env_vars = {
     'PROJECT_ROOT': '/project',
     'KEY_FILE_FOLDER': 'key-files',
-    'GCP_KEYFILE':'adroit-hall-301111-417090a2983b.json'
+    'GCP_KEYFILE':'adroit-hall-301111-417090a2983b.json',
+    'SA_SECRET_NAME': 'gcp-service-account'    
 }
 
 gcp_service_account_volume = Secret(
     deploy_type="volume",
     deploy_target=f"{env_vars['PROJECT_ROOT']}/{env_vars['KEY_FILE_FOLDER']}",  # Path to mount secret as volume
-    secret="gcp-service-account",  # Name of Kubernetes Secret
+    secret=env_vars["SA_SECRET_NAME"],  # Name of Kubernetes Secret
     key=env_vars["GCP_KEYFILE"],  # Key of a secret stored in Secret object
 )
 
@@ -70,6 +71,7 @@ with DAG('scheduled_query', description='',
         # Identifier of connection that should be used
         kubernetes_conn_id="kubernetes_default",
         startup_timeout_seconds=120,
+        # All environment variables referenced in the meltano.yml file must be included here
         env_vars=env_vars,
         secrets=[gcp_service_account_volume]
     )
