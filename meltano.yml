@@ -13,6 +13,8 @@ plugins:
     config:
       reports: extract/ga4.json
       start_date: '2024-01-01'
+      key_file_location: $GCP_KEYFILE
+      property_id: '265709171'
   loaders:
   - name: target-bigquery
     variant: z3z1ma
@@ -21,4 +23,4 @@ plugins:
       bucket: papermill_test
       dataset: demo
       project: adroit-hall-301111
-      credentials_path: key-files/adroit-hall-301111-417090a2983b.json
+      credentials_path: $GCP_KEYFILE
