@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import datetime
 import pendulum
 
-# Push to GCS gsutil cp cloud_composer/run_k8s.py gs://us-central1-example-environ-e17e2153-bucket/dags
+# Push to GCS gsutil cp _non_meltano/run_k8s.py gs://us-central1-example-environ-906e5dcc-bucket/dags
 
 local_tz = pendulum.timezone('Asia/Hong_Kong')
 
@@ -17,20 +17,18 @@ default_args = {
     # 'email_on_failure': True,
 }
 
-keyfile_path = "/project/key-files"
-keyfile_name = "adroit-hall-301111-417090a2983b.json"
-keyfile_full_path = f"{keyfile_path}/{keyfile_name}"
+env_vars = {
+    'PROJECT_ROOT': '/project',
+    'KEY_FILE_FOLDER': 'key-files',
+    'GCP_KEYFILE':'adroit-hall-301111-417090a2983b.json'
+}
 
 gcp_service_account_volume = Secret(
     deploy_type="volume",
-    deploy_target=keyfile_path,  # Path to mount secret as volume
+    deploy_target=f"{env_vars['PROJECT_ROOT']}/{env_vars['KEY_FILE_FOLDER']}",  # Path to mount secret as volume
     secret="gcp-service-account",  # Name of Kubernetes Secret
-    key=keyfile_name,  # Key of a secret stored in Secret object
+    key=env_vars["GCP_KEYFILE"],  # Key of a secret stored in Secret object
 )
-
-env_vars = {
-    "GCP_KEYFILE": keyfile_full_path,
-}
 
 args = ["run",
         "tap-ga4",

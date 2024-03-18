@@ -1,8 +1,17 @@
-# Local run
-Note: These items are declared in .gitignore, remember to account for them in the code:
+# What is this about
+Running Meltano as a container via Cloud Composer
+
+# Important notes
+**Omitted items in code**
+These items are declared in .gitignore, remember to account for them in the code:
    - `key-files/`: Folder for storing the key files e.g. SSH keys, service account keys, etc.
    - `.env`: Environment variables that are referred to in the `meltano.yml` file
 
+**Variables**
+   - Project level variables are defined in `.env` (used for everything) and in `run_k8s.py` (to be read for the container)
+   - Application level variables are defined in `meltano.yml` (self explanatory) and in `set_secret.sh` (set up secrets in Composer GKE as needed)
+
+# Local run
 **Run without Docker**: See if Meltano could run without containerization
 ```
 source .env
@@ -26,14 +35,16 @@ meltano run tap-ga4 target-bigquery
 
 # Cloud Composer deployment
 - Prerequisites:
-   - Create Cloud Composer resource with `.non_meltano/composer.tf`
-   - Set Secret from key-files into Composer's GKE cluster with `.non_meltano/set_secrets.sh`
+   - Create Cloud Composer resource with `_non_meltano/composer.tf`
+   - Set Secret from key-files into Composer's GKE cluster with `_non_meltano/set_secrets.sh`
 - After prerequisites are fulfilled, perform these regular development works:
-   1. Push image to GCP Artifact Repository `.non_meltano/push.sh`
-   2. Update the DAG file `.non_meltano/run_k8s.py`
+   1. Push image to GCP Artifact Repository `_non_meltano/push.sh`
+   2. Update the DAG file `_non_meltano/run_k8s.py`
 
 To try:
- - Define project/ root and .env file for Dockerfile and airflow, otherwise variables like /project and key file names are separately declared
+ - Read env variables instead of hardcoding them in the run_k8s.py
+ - Dockerfile read from env https://stackoverflow.com/questions/40248908/context-or-workdir-for-docker-compose
  - Improve the DAG file with affinity
 - Multiple extractor / target
 - Check why the local run no longer work
+- Add Cloud Build trigger
