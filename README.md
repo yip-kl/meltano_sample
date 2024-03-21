@@ -1,12 +1,12 @@
 # What is this about
-Running Meltano as a container via Cloud Composer 2. Note that:
-- It is only for EL, no T is performed here
+Running Meltano in a container via Cloud Composer 2. Note that:
+- It demonstrate running the full ELT cycle with Meltano (and dbt for T)
 - The architecture involves running Meltano container using the KubernetesPodOperator which runs the workload in Cloud Composer 2 GKE, which supports only `general-purpose` compute class which has no GPU
 
 Things to try in the future:
 - Having the Dockerfile read PROJECT_ROOT in .env rather than declared separately
-- State backend
-- Multiple environment
+- Incremental runs
+- Check why: GCS backend can be used for local run, but failed when using Docker
 
 # Develop
 **Initial setup**
@@ -61,6 +61,3 @@ meltano run tap-ga4_one target-bq_one dbt-bigquery:build
    - As usual with dbt, first initialize dbt with `meltano invoke dbt-bigquery:initialize`, then `meltano invoke dbt-bigquery:debug` to make sure the data warehouse can be connected. However, during the setup also pay attention to the below:
       - Comment out `../.meltano/transformers/dbt/target` in `clean-targets` in `/transform/dbt_project.yml` first, because dbt clean will attempt to clean `../.meltano/transformers/dbt/target` which causes error, if there is nothing there
       - During initialization, `profiles/bigquery/profiles.yaml` while dbt look for `.yml` file instead. So the profiles.**yaml** file need to be renamed into **yml**
-
-To check
-- GCS backend can be used for local run, but failed when using Docker
