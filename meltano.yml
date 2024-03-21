@@ -13,14 +13,30 @@ plugins:
     config:
       reports: extract/ga4.json
       start_date: '2024-01-01'
-      key_file_location: $PROJECT_ROOT/$KEY_FILE_FOLDER/$GCP_KEYFILE
+      key_file_location: $KEY_FILE_FOLDER/$GCP_KEYFILE
       property_id: '265709171'
+  # - name: tap-ga4_one
+  #   inherit_from: tap-ga4
+  #   config:
+  #     property_id: '235753993'
+  # - name: tap-ga4_two
+  #   inherit_from: tap-ga4
+  #   config:
+  #     property_id: '265709171'
   loaders:
   - name: target-bigquery
     variant: z3z1ma
     pip_url: git+https://github.com/z3z1ma/target-bigquery.git
     config:
       bucket: papermill_test
-      dataset: demo
       project: adroit-hall-301111
-      credentials_path: $PROJECT_ROOT/$KEY_FILE_FOLDER/$GCP_KEYFILE
+      dataset: 'meltano_1'
+      credentials_path: $KEY_FILE_FOLDER/$GCP_KEYFILE
+  # - name: target-bq_one
+  #   inherit_from: tap-ga4
+  #   config:
+  #     dataset: 'meltano_1'
+  # - name: tap-ga4_two
+  #   inherit_from: tap-ga4
+  #   config:
+  #     dataset: 'meltano_2'

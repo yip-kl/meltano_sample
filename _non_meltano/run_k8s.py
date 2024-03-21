@@ -53,6 +53,8 @@ with DAG('scheduled_query', description='',
         # Entrypoint of the container, if not specified the Docker container's
         # entrypoint is used. The cmds parameter is templated.
         # cmds=["bash", "-c"],
+        # # Arguments to the entrypoint. The docker image's CMD is used if this
+        # is not provided. The arguments parameter is templated.
         arguments=args,
         # The namespace to run within Kubernetes. In Composer 2 environments
         # after December 2022, the default namespace is
@@ -73,12 +75,15 @@ with DAG('scheduled_query', description='',
         startup_timeout_seconds=120,
         # All environment variables referenced in the meltano.yml file must be included here
         env_vars=env_vars,
-        secrets=[gcp_service_account_volume]
+        # The secrets to pass to Pod, the Pod will fail to create if the
+        # secrets you specify in a Secret object do not exist in Kubernetes.
+        secrets=[gcp_service_account_volume],
+        # Optional resource specifications for Pod, this will allow you to
+        # set both cpu and memory limits and requirements. As of Mar 21, 2024, Cloud Composer 2 supports only general-purpose compute class (no GPU attached) at the moment. 
+        container_resources=k8s_models.V1ResourceRequirements(
+        requests={"cpu": "1000m", "memory": "10G", "ephemeral-storage": "10G"},
+        limits={"cpu": "1000m", "memory": "10G", "ephemeral-storage": "10G"},
+    )
     )
 
     kubernetes_min_pod
-
-    # Comment out secrets, can detect meltano, but can't find the secret
-    # Enable secrets, can't detect meltano
-    # Try define the deploy_target = full path to the secret, it would be considered as a folder
-    # airflow.kubernetes.secret -> airflow.providers.cncf.kubernetes.secret (Airflow2)
