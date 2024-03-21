@@ -28,13 +28,22 @@ plugins:
     pip_url: git+https://github.com/z3z1ma/target-bigquery.git
     config:
       bucket: papermill_test
-      project: adroit-hall-301111
+      project: $GCP_PROJECT
       credentials_path: $KEY_FILE_FOLDER/$GCP_KEYFILE
   - name: target-bq_one
     inherit_from: target-bigquery
     config:
-      dataset: 'meltano_1'
+      dataset: meltano_1
   - name: target-bq_two
     inherit_from: target-bigquery
     config:
-      dataset: 'meltano_2'
+      dataset: meltano_2
+  utilities:
+  - name: dbt-bigquery
+    variant: dbt-labs
+    pip_url: dbt-core dbt-bigquery git+https://github.com/meltano/dbt-ext.git@main
+    config:
+      auth_method: service-account
+      dataset: meltano_dbt
+      keyfile: ../$KEY_FILE_FOLDER/$GCP_KEYFILE
+      project: $GCP_PROJECT

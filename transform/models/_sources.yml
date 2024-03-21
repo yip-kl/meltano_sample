@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_ga4
+    database: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+    schema: meltano_1
+    tables:
+      - name: users_per_day
