@@ -1,5 +1,7 @@
 # What is this about
-Running Meltano as a container via Cloud Composer
+Running Meltano as a container via Cloud Composer 2. Note that:
+- It is only for EL, no T is performed here
+- The architecture involves running Meltano container using the KubernetesPodOperator which runs the workload in Cloud Composer 2 GKE, which supports only `general-purpose` compute class which has no GPU
 
 # Develop
 **Performing configuration**
@@ -16,7 +18,8 @@ These items are declared in .gitignore, remember to account for them in the code
    - `.meltano/`: Where the installed extractor/loader plugins and execution logs reside. Remember to install the plugins before your runs. If you encounter blank stderr, try re-install your plugins
 
 # Local run
-**Run without Docker**: See if Meltano could run without containerization
+**Run without Docker**: 
+- See if Meltano could run without containerization
 ```
 source .env
 meltano run tap-ga4 target-bigquery / meltano run tap-ga4_one target-bq_two
