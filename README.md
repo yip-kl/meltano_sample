@@ -6,7 +6,6 @@ Running Meltano in a container via Cloud Composer 2. Note that:
 Things to try in the future:
 - Having the Dockerfile read PROJECT_ROOT in .env rather than declared separately
 - Incremental runs
-- Check why: GCS backend can be used for local run, but failed when using Docker
 
 # Develop
 **Initial setup**
