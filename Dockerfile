@@ -2,7 +2,8 @@
 ARG MELTANO_IMAGE=meltano/meltano:latest
 FROM $MELTANO_IMAGE
 
-WORKDIR /project
+ARG PROJECT_ROOT
+WORKDIR ${PROJECT_ROOT}
 
 # Install any additional requirements
 COPY ./requirements.txt .

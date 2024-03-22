@@ -4,7 +4,6 @@ Running Meltano in a container via Cloud Composer 2. Note that:
 - The architecture involves running Meltano container using the KubernetesPodOperator which runs the workload in Cloud Composer 2 GKE, which supports only `general-purpose` compute class which has no GPU
 
 Things to try in the future:
-- Having the Dockerfile read PROJECT_ROOT in .env rather than declared separately
 - Incremental runs
 
 # Develop
